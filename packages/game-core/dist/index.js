@@ -6,4 +6,5 @@ export { NULL_ENTITY, EntityAllocator, ComponentStore } from './ecs.js';
 export { SYSTEM_ORDER } from './systems.js';
 export { resolveStats } from './statPipeline.js';
 export { MAX_EFFECT_DEPTH, HOOK_NAMES, DAMAGE_MATCHUP, resolveDamageElement } from './effects.js';
+export { serializeStores, deserializeStores } from './worldSerialization.js';
 //# sourceMappingURL=index.js.map

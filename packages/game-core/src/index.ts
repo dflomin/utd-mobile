@@ -6,4 +6,5 @@ export { NULL_ENTITY, EntityAllocator, ComponentStore, type EntityId } from './e
 export { SYSTEM_ORDER, type SystemName } from './systems.js';
 export { resolveStats, type StatModifier } from './statPipeline.js';
 export { MAX_EFFECT_DEPTH, HOOK_NAMES, DAMAGE_MATCHUP, resolveDamageElement } from './effects.js';
+export { serializeStores, deserializeStores, type WorldSnapshot } from './worldSerialization.js';
 export type { RenderSnapshot, SimulationSummary, StatId, ModifierOp, ModifierDef, ModifierInstance, ModifierTarget, ModifierStackMode, DamageElement, ArmorType, EffectType, EffectTrigger, HookName, HookBehavior, EffectDef, EffectChildDef } from '@utd/shared-types';

@@ -15,6 +15,7 @@
     "lint": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
-    "@utd/localization": "file:../localization"
+    "@utd/localization": "file:../localization",
+    "@utd/shared-types": "file:../shared-types"
   }
 }
