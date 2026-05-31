@@ -1,0 +1,32 @@
+{
+  "name": "utd-mobile",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "build": "npm run build --workspaces --if-present",
+    "lint": "tsc -b --pretty false",
+    "dev:client": "npm run dev -w apps/client-phaser"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dflomin/utd-mobile.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/dflomin/utd-mobile/issues"
+  },
+  "homepage": "https://github.com/dflomin/utd-mobile#readme",
+  "private": "true",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ]
+}
