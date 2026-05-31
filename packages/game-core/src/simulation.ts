@@ -5,7 +5,9 @@ import {
   type AnyGameCommand,
   type BuildTowerCommand,
   type CommandRejectionCode,
+  type ReplaceTowerCommand,
   type RenderSnapshot,
+  type SellTowerCommand,
   type SimulationSummary,
   type StartWaveCommand
 } from '@utd/shared-types';
@@ -96,6 +98,40 @@ export const createStartWaveCommand = (applyAtTick = 0): StartWaveCommand => ({
   payload: { waveId: 'wave-1' }
 });
 
+export const createSellTowerCommand = (applyAtTick = 1, clientSeq = 2): SellTowerCommand => ({
+  schemaVersion: GAME_SCHEMA_VERSION,
+  commandId: '33333333-3333-4333-8333-333333333333',
+  sessionId,
+  runId,
+  playerId,
+  clientSeq,
+  clientSentAtMs: applyAtTick * 50,
+  issuedAtLocalTick: applyAtTick,
+  applyAtTick,
+  type: 'SELL_TOWER',
+  payload: { towerEntityId: 'tower-1', towerInstanceId: 'tower-instance-1', towerDefId: 'tower.basic' }
+});
+
+export const createReplaceTowerCommand = (applyAtTick = 1, clientSeq = 2): ReplaceTowerCommand => ({
+  schemaVersion: GAME_SCHEMA_VERSION,
+  commandId: '44444444-4444-4444-8444-444444444444',
+  sessionId,
+  runId,
+  playerId,
+  clientSeq,
+  clientSentAtMs: applyAtTick * 50,
+  issuedAtLocalTick: applyAtTick,
+  applyAtTick,
+  type: 'REPLACE_TOWER',
+  payload: {
+    targetTowerEntityId: 'tower-1',
+    targetTowerInstanceId: 'tower-instance-1',
+    targetTowerDefId: 'tower.basic',
+    replacementBlueprintStackId: 'stack-2',
+    replacementTowerDefId: 'tower.arcane.plus'
+  }
+});
+
 const reject = (state: SimulationState, code: CommandRejectionCode, commandId: string): CommandRejectionCode => {
   state.telemetry.push({ type: 'commandRejected', sourceId: `${commandId}:${code}` });
   return code;
@@ -111,7 +147,27 @@ const validateCommand = (state: SimulationState, command: AnyGameCommand): Comma
   if (state.acceptedCommandIds.has(command.commandId)) return 'DUPLICATE_COMMAND';
   if (state.lives <= 0) return reject(state, 'GAME_OVER', command.commandId);
   if (command.type === 'START_WAVE' && !config.waves.some((wave) => wave.id == command.payload.waveId)) return reject(state, 'UNKNOWN_WAVE', command.commandId);
-  if (command.type !== 'BUILD_TOWER') return null;
+  if (command.type === 'START_WAVE') return null;
+  if (command.type === 'SELL_TOWER') {
+    const existing = state.towers.find((entry) => entry.id === command.payload.towerEntityId);
+    if (!existing || existing.towerDefId !== command.payload.towerDefId) return reject(state, 'UNKNOWN_TOWER', command.commandId);
+    if (existing.instanceId !== command.payload.towerInstanceId) return reject(state, 'UNKNOWN_TOWER_INSTANCE', command.commandId);
+    return null;
+  }
+  if (command.type === 'REPLACE_TOWER') {
+    const existing = state.towers.find((entry) => entry.id === command.payload.targetTowerEntityId);
+    if (!existing || existing.towerDefId !== command.payload.targetTowerDefId) return reject(state, 'UNKNOWN_TOWER', command.commandId);
+    if (existing.instanceId !== command.payload.targetTowerInstanceId) return reject(state, 'UNKNOWN_TOWER_INSTANCE', command.commandId);
+    const targetTower = config.towers.find((entry) => entry.id === existing.towerDefId);
+    const replacementTower = config.towers.find((entry) => entry.id === command.payload.replacementTowerDefId);
+    const replacementStack = state.inventory.find((entry) => entry.stackId === command.payload.replacementBlueprintStackId);
+    if (!targetTower || !replacementTower) return reject(state, 'UNKNOWN_TOWER', command.commandId);
+    if (!replacementStack || replacementStack.count <= 0) return reject(state, 'BLUEPRINT_NOT_OWNED', command.commandId);
+    if (replacementStack.towerDefId !== replacementTower.id) return reject(state, 'BLUEPRINT_MISMATCH', command.commandId);
+    if (targetTower.element !== replacementTower.element) return reject(state, 'REPLACEMENT_ELEMENT_MISMATCH', command.commandId);
+    if (state.gold < replacementTower.cost) return reject(state, 'INSUFFICIENT_GOLD', command.commandId);
+    return null;
+  }
   const tower = config.towers.find((entry) => entry.id === command.payload.towerDefId);
   const slot = config.slots.find((entry) => entry.id === command.payload.slotId);
   const stack = state.inventory.find((entry) => entry.stackId === command.payload.blueprintStackId);
@@ -143,6 +199,25 @@ const applyCommand = (state: SimulationState, command: AnyGameCommand): void => 
     if (existing) {
       state.towers = state.towers.filter((tower) => tower !== existing);
       state.gold += 2;
+    }
+    return;
+  }
+  if (command.type === 'REPLACE_TOWER') {
+    const targetIndex = state.towers.findIndex((tower) => tower.id === command.payload.targetTowerEntityId && tower.instanceId === command.payload.targetTowerInstanceId);
+    const replacementTower = config.towers.find((entry) => entry.id === command.payload.replacementTowerDefId)!;
+    const replacementStack = state.inventory.find((entry) => entry.stackId === command.payload.replacementBlueprintStackId)!;
+    if (targetIndex >= 0) {
+      replacementStack.count -= 1;
+      state.gold -= replacementTower.cost;
+      state.towers[targetIndex] = {
+        ...state.towers[targetIndex],
+        instanceId: `${state.towers[targetIndex].id}-instance-${state.tick}`,
+        towerDefId: replacementTower.id,
+        range: replacementTower.range,
+        damage: replacementTower.damage,
+        cooldownTicks: replacementTower.cooldownTicks,
+        cooldown: 0
+      };
     }
     return;
   }

@@ -1,4 +1,4 @@
-export { createRenderSnapshot, createBuildTowerCommand, createStartWaveCommand, runScriptedSimulation } from './simulation.js';
+export { createRenderSnapshot, createBuildTowerCommand, createStartWaveCommand, createSellTowerCommand, createReplaceTowerCommand, runScriptedSimulation } from './simulation.js';
 export { hashText } from './hash.js';
 export { createRngStreams, nextRandom } from './rng.js';
 export { FP_ONE, intToFp, fpToInt, fpToFloat, fpFromFloat, fpAdd, fpSub, fpMul, fpDiv, fpFloor, fpClamp } from './fixedPoint.js';

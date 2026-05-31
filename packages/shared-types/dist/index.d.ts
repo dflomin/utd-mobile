@@ -26,14 +26,22 @@ export type SellTowerPayload = {
     readonly towerInstanceId: string;
     readonly towerDefId: string;
 };
+export type ReplaceTowerPayload = {
+    readonly targetTowerEntityId: string;
+    readonly targetTowerInstanceId: string;
+    readonly targetTowerDefId: string;
+    readonly replacementBlueprintStackId: string;
+    readonly replacementTowerDefId: string;
+};
 export type StartWavePayload = {
     readonly waveId: string;
 };
 export type BuildTowerCommand = GameCommand<'BUILD_TOWER', BuildTowerPayload>;
 export type SellTowerCommand = GameCommand<'SELL_TOWER', SellTowerPayload>;
+export type ReplaceTowerCommand = GameCommand<'REPLACE_TOWER', ReplaceTowerPayload>;
 export type StartWaveCommand = GameCommand<'START_WAVE', StartWavePayload>;
-export type AnyGameCommand = BuildTowerCommand | SellTowerCommand | StartWaveCommand;
-export type CommandRejectionCode = 'INVALID_SCHEMA_VERSION' | 'INVALID_COMMAND_ID' | 'INVALID_MEMBERSHIP' | 'NON_MONOTONIC_CLIENT_SEQ' | 'INVALID_SCHEDULE_WINDOW' | 'DUPLICATE_COMMAND' | 'GAME_OVER' | 'UNKNOWN_WAVE' | 'BLUEPRINT_NOT_OWNED' | 'BLUEPRINT_MISMATCH' | 'INSUFFICIENT_GOLD' | 'SLOT_OCCUPIED' | 'UNKNOWN_SLOT' | 'UNKNOWN_TOWER' | 'UNKNOWN_TOWER_INSTANCE';
+export type AnyGameCommand = BuildTowerCommand | SellTowerCommand | ReplaceTowerCommand | StartWaveCommand;
+export type CommandRejectionCode = 'INVALID_SCHEMA_VERSION' | 'INVALID_COMMAND_ID' | 'INVALID_MEMBERSHIP' | 'NON_MONOTONIC_CLIENT_SEQ' | 'INVALID_SCHEDULE_WINDOW' | 'DUPLICATE_COMMAND' | 'GAME_OVER' | 'UNKNOWN_WAVE' | 'BLUEPRINT_NOT_OWNED' | 'BLUEPRINT_MISMATCH' | 'INSUFFICIENT_GOLD' | 'SLOT_OCCUPIED' | 'UNKNOWN_SLOT' | 'UNKNOWN_TOWER' | 'UNKNOWN_TOWER_INSTANCE' | 'REPLACEMENT_ELEMENT_MISMATCH';
 export type RenderPoint = {
     readonly x: number;
     readonly y: number;

@@ -30,14 +30,23 @@ export type SellTowerPayload = {
   readonly towerDefId: string;
 };
 
+export type ReplaceTowerPayload = {
+  readonly targetTowerEntityId: string;
+  readonly targetTowerInstanceId: string;
+  readonly targetTowerDefId: string;
+  readonly replacementBlueprintStackId: string;
+  readonly replacementTowerDefId: string;
+};
+
 export type StartWavePayload = {
   readonly waveId: string;
 };
 
 export type BuildTowerCommand = GameCommand<'BUILD_TOWER', BuildTowerPayload>;
 export type SellTowerCommand = GameCommand<'SELL_TOWER', SellTowerPayload>;
+export type ReplaceTowerCommand = GameCommand<'REPLACE_TOWER', ReplaceTowerPayload>;
 export type StartWaveCommand = GameCommand<'START_WAVE', StartWavePayload>;
-export type AnyGameCommand = BuildTowerCommand | SellTowerCommand | StartWaveCommand;
+export type AnyGameCommand = BuildTowerCommand | SellTowerCommand | ReplaceTowerCommand | StartWaveCommand;
 
 export type CommandRejectionCode =
   | 'INVALID_SCHEMA_VERSION'
@@ -54,7 +63,8 @@ export type CommandRejectionCode =
   | 'SLOT_OCCUPIED'
   | 'UNKNOWN_SLOT'
   | 'UNKNOWN_TOWER'
-  | 'UNKNOWN_TOWER_INSTANCE';
+  | 'UNKNOWN_TOWER_INSTANCE'
+  | 'REPLACEMENT_ELEMENT_MISMATCH';
 
 export type RenderPoint = { readonly x: number; readonly y: number };
 

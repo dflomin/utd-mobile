@@ -1,4 +1,4 @@
-import { type AnyGameCommand, type BuildTowerCommand, type RenderSnapshot, type SimulationSummary, type StartWaveCommand } from '@utd/shared-types';
+import { type AnyGameCommand, type BuildTowerCommand, type ReplaceTowerCommand, type RenderSnapshot, type SellTowerCommand, type SimulationSummary, type StartWaveCommand } from '@utd/shared-types';
 export type ScriptedRunOptions = {
     readonly seed: number;
     readonly maxTicks: number;
@@ -7,6 +7,8 @@ export type ScriptedRunOptions = {
 };
 export declare const createBuildTowerCommand: (applyAtTick?: number, clientSeq?: number) => BuildTowerCommand;
 export declare const createStartWaveCommand: (applyAtTick?: number) => StartWaveCommand;
+export declare const createSellTowerCommand: (applyAtTick?: number, clientSeq?: number) => SellTowerCommand;
+export declare const createReplaceTowerCommand: (applyAtTick?: number, clientSeq?: number) => ReplaceTowerCommand;
 export declare const runScriptedSimulation: (options: ScriptedRunOptions) => SimulationSummary;
 export declare const createRenderSnapshot: (options?: Partial<ScriptedRunOptions> & {
     readonly tick?: number;

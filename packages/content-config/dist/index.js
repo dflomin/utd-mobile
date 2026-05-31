@@ -10,7 +10,11 @@ export const createContentConfig = () => ({
     map: { id: 'map-1', path: [{ x: 0, y: 180 }, { x: 360, y: 180 }] },
     economy: { startingGold: 12, startingLives: 20, schedulingWindowTicks: 5 },
     slots: [{ id: 'slot-1', x: 120, y: 140 }],
-    towers: [{ id: 'tower.basic', nameKey: 'tower.basic.name', element: 'arcane', cost: 5, damage: 3, range: 120, cooldownTicks: 2 }],
+    towers: [
+        { id: 'tower.basic', nameKey: 'tower.basic.name', element: 'arcane', cost: 5, damage: 3, range: 120, cooldownTicks: 2 },
+        { id: 'tower.arcane.plus', nameKey: 'tower.basic.name', element: 'arcane', cost: 7, damage: 3, range: 120, cooldownTicks: 2 },
+        { id: 'tower.fire.basic', nameKey: 'tower.basic.name', element: 'fire', cost: 7, damage: 3, range: 120, cooldownTicks: 2 },
+    ],
     enemies: [{ id: 'enemy.basic', nameKey: 'enemy.basic.name', health: 6, speedPerTick: 24, rewardGold: 2, leakDamage: 1 }],
     waves: [{ id: 'wave-1', nameKey: 'wave.basic.name', enemyId: 'enemy.basic', count: 3, spawnIntervalTicks: 4 }],
     waveBandScaling: [
@@ -18,7 +22,11 @@ export const createContentConfig = () => ({
         { waveMin: 11, waveMax: 20, hpMultiplier: 1200, countMultiplier: 1100, goldMultiplier: 1100, speedMultiplier: 1050 },
     ],
     bonusWave: { interval: 10, hpMultiplier: 3000, goldMultiplier: 2000, countGroup: 10, leakDamagesLives: false },
-    inventory: [{ stackId: 'stack-1', towerDefId: 'tower.basic', element: 'arcane', count: 1 }],
+    inventory: [
+        { stackId: 'stack-1', towerDefId: 'tower.basic', element: 'arcane', count: 1 },
+        { stackId: 'stack-2', towerDefId: 'tower.arcane.plus', element: 'arcane', count: 1 },
+        { stackId: 'stack-3', towerDefId: 'tower.fire.basic', element: 'fire', count: 1 },
+    ],
     effectDefs: [
         { effectDefId: 'effect.basic_attack', effectType: 'DIRECT_DAMAGE', value: 3000, element: 'VOID' },
     ],
