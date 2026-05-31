@@ -2,14 +2,22 @@
   "name": "@utd/game-core",
   "version": "0.0.0",
   "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "lint": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
-    "@utd/content-config": "workspace:*",
-    "@utd/localization": "workspace:*",
-    "@utd/shared-types": "workspace:*",
-    "@utd/telemetry": "workspace:*"
+    "@utd/content-config": "file:../content-config",
+    "@utd/localization": "file:../localization",
+    "@utd/shared-types": "file:../shared-types",
+    "@utd/telemetry": "file:../telemetry"
   }
 }

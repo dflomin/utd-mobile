@@ -12,6 +12,14 @@
     "skipLibCheck": true,
     "resolveJsonModule": true,
     "composite": true,
+    "baseUrl": ".",
+    "paths": {
+      "@utd/shared-types": ["packages/shared-types/src/index.ts"],
+      "@utd/localization": ["packages/localization/src/index.ts"],
+      "@utd/content-config": ["packages/content-config/src/index.ts"],
+      "@utd/telemetry": ["packages/telemetry/src/index.ts"],
+      "@utd/game-core": ["packages/game-core/src/index.ts"]
+    },
     "rootDir": "src",
     "outDir": "dist"
   }

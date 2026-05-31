@@ -1,5 +1,5 @@
-import type { ScriptedRunOptions, SimulationSummary } from '@utd/game-core';
+import { runScriptedSimulation, type ScriptedRunOptions, type SimulationSummary } from '@utd/game-core';
 
-export const runSimulation = (_options: ScriptedRunOptions): SimulationSummary => {
-  throw new Error('TODO: implement simulator run output');
+export const runSimulation = (options: ScriptedRunOptions): SimulationSummary => {
+  return runScriptedSimulation(options);
 };

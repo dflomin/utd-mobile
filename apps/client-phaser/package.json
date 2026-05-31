@@ -10,9 +10,8 @@
   },
   "dependencies": {
     "@capacitor/core": "^7.4.3",
-    "@utd/content-config": "workspace:*",
-    "@utd/game-core": "workspace:*",
-    "@utd/localization": "workspace:*",
+    "@utd/game-core": "file:../../packages/game-core",
+    "@utd/localization": "file:../../packages/localization",
     "phaser": "^3.90.0"
   },
   "devDependencies": {

@@ -7,8 +7,8 @@
     "packages/*"
   ],
   "scripts": {
-    "build": "npm run build --workspaces --if-present",
-    "lint": "tsc -b tsconfig.json --pretty false",
+    "build": "npm run build -w @utd/shared-types && npm run build -w @utd/localization && npm run build -w @utd/content-config && npm run build -w @utd/telemetry && npm run build -w @utd/game-core && npm run build -w @utd/simulator && npm run build -w @utd/backend && npm run build -w @utd/client-phaser",
+    "lint": "npm run lint -w @utd/shared-types && npm run lint -w @utd/localization && npm run lint -w @utd/content-config && npm run lint -w @utd/telemetry && npm run lint -w @utd/game-core && npm run lint -w @utd/simulator && npm run lint -w @utd/backend && npm run lint -w @utd/client-phaser",
     "test": "vitest run"
   },
   "devDependencies": {

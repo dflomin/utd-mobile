@@ -7,8 +7,6 @@
     "lint": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
-    "@utd/content-config": "workspace:*",
-    "@utd/game-core": "workspace:*",
-    "@utd/telemetry": "workspace:*"
+    "@utd/game-core": "file:../../packages/game-core"
   }
 }
