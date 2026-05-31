@@ -19,8 +19,6 @@
       "@utd/content-config": ["packages/content-config/src/index.ts"],
       "@utd/telemetry": ["packages/telemetry/src/index.ts"],
       "@utd/game-core": ["packages/game-core/src/index.ts"]
-    },
-    "rootDir": "src",
-    "outDir": "dist"
+    }
   }
 }

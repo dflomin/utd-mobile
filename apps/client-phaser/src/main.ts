@@ -33,22 +33,23 @@ class HarnessScene extends Phaser.Scene {
 
   private renderSnapshot(): void {
     if (!this.graphics || !this.hudText) return;
+    const graphics = this.graphics;
     this.graphics.clear();
-    this.graphics.lineStyle(4, 0x5dade2, 1);
+    graphics.lineStyle(4, 0x5dade2, 1);
     const [first, ...rest] = snapshot.path;
     if (first) {
-      this.graphics.beginPath();
-      this.graphics.moveTo(first.x, first.y);
-      rest.forEach((point) => this.graphics.lineTo(point.x, point.y));
-      this.graphics.strokePath();
+      graphics.beginPath();
+      graphics.moveTo(first.x, first.y);
+      rest.forEach((point) => graphics.lineTo(point.x, point.y));
+      graphics.strokePath();
     }
     snapshot.towers.forEach((tower) => {
-      this.graphics.fillStyle(0x2ecc71, 1);
-      this.graphics.fillRect(tower.x - 14, tower.y - 14, 28, 28);
+      graphics.fillStyle(0x2ecc71, 1);
+      graphics.fillRect(tower.x - 14, tower.y - 14, 28, 28);
     });
     snapshot.enemies.forEach((enemy) => {
-      this.graphics.fillStyle(0xe74c3c, 1);
-      this.graphics.fillCircle(enemy.x, enemy.y, 10);
+      graphics.fillStyle(0xe74c3c, 1);
+      graphics.fillCircle(enemy.x, enemy.y, 10);
     });
     this.hudText.setText([
       `Lives: ${snapshot.hud.lives}`,
