@@ -1,0 +1,13 @@
+{
+  "files": [],
+  "references": [
+    { "path": "./packages/shared-types" },
+    { "path": "./packages/localization" },
+    { "path": "./packages/content-config" },
+    { "path": "./packages/telemetry" },
+    { "path": "./packages/game-core" },
+    { "path": "./apps/simulator" },
+    { "path": "./apps/backend" },
+    { "path": "./apps/client-phaser" }
+  ]
+}

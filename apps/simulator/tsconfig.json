@@ -1,18 +1,12 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "module": "ESNext",
-    "moduleResolution": "Bundler",
-    "lib": ["ES2022", "DOM"],
-    "types": ["vite/client"],
-    "noEmit": true,
-    "rootDir": "./src",
     "tsBuildInfoFile": "dist/.tsbuildinfo"
   },
   "include": ["src"],
   "references": [
     { "path": "../../packages/content-config" },
     { "path": "../../packages/game-core" },
-    { "path": "../../packages/localization" }
+    { "path": "../../packages/telemetry" }
   ]
 }

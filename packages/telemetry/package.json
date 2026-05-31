@@ -1,0 +1,12 @@
+{
+  "name": "@utd/telemetry",
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "lint": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@utd/shared-types": "workspace:*"
+  }
+}
