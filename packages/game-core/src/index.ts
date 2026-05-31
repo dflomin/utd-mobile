@@ -5,4 +5,5 @@ export { FP_ONE, intToFp, fpToInt, fpToFloat, fpFromFloat, fpAdd, fpSub, fpMul, 
 export { NULL_ENTITY, EntityAllocator, ComponentStore, type EntityId } from './ecs.js';
 export { SYSTEM_ORDER, type SystemName } from './systems.js';
 export { resolveStats, type StatModifier } from './statPipeline.js';
-export type { RenderSnapshot, SimulationSummary, StatId, ModifierOp, ModifierDef, ModifierInstance, ModifierTarget, ModifierStackMode } from '@utd/shared-types';
+export { MAX_EFFECT_DEPTH, HOOK_NAMES, DAMAGE_MATCHUP, resolveDamageElement } from './effects.js';
+export type { RenderSnapshot, SimulationSummary, StatId, ModifierOp, ModifierDef, ModifierInstance, ModifierTarget, ModifierStackMode, DamageElement, ArmorType, EffectType, EffectTrigger, HookName, HookBehavior, EffectDef, EffectChildDef } from '@utd/shared-types';

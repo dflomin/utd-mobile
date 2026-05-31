@@ -111,4 +111,39 @@ export type ModifierInstance = {
     /** Override value if different from the def. Fixed-point. */
     readonly valueOverride?: number;
 };
+/** Damage element identifiers (spec: 06-effects/005-damage-elements-armor.md). */
+export type DamageElement = 'FIRE' | 'ICE' | 'NATURE' | 'LIGHT' | 'DARK' | 'MACHINE' | 'VOID';
+/** Enemy armor type identifiers (spec: 06-effects/005-damage-elements-armor.md). */
+export type ArmorType = 'FIRE' | 'ICE' | 'NATURE' | 'LIGHT' | 'DARK' | 'MACHINE' | 'VOID' | 'RESISTANT';
+/** Effect type identifiers (spec: 06-effects/003-effect-types.md). */
+export type EffectType = 'DIRECT_DAMAGE' | 'SPLASH_DAMAGE' | 'CHAIN_DAMAGE' | 'APPLY_STATUS' | 'APPLY_BUFF' | 'APPLY_DEBUFF' | 'SUMMON_TRAP' | 'SUMMON_STRUCTURE' | 'HEAL' | 'EXECUTE' | 'PERCENT_MAX_HP_DAMAGE' | 'PERCENT_CURRENT_HP_DAMAGE' | 'MODIFY_MANA' | 'MODIFY_GOLD' | 'MODIFY_LIVES' | 'TRANSFORM_DAMAGE' | 'TRIGGER_EFFECT';
+/** Conditions under which a child effect fires (spec: 06-effects/002-effect-graph.md). */
+export type EffectTrigger = 'ON_SUCCESS' | 'ON_FAIL' | 'ON_CRIT' | 'ON_KILL' | 'ON_STATUS_APPLIED' | 'ON_PROJECTILE_IMPACT' | 'ON_EXPIRE';
+/** Curated hook names (spec: 06-effects/010-hook-registry.md). */
+export type HookName = 'BEFORE_TARGETING' | 'ON_TARGET_SELECTED' | 'BEFORE_ATTACK' | 'ON_ATTACK_CREATED' | 'BEFORE_PROJECTILE_IMPACT' | 'ON_PROJECTILE_IMPACT' | 'BEFORE_DAMAGE' | 'ON_DAMAGE_RESOLVED' | 'AFTER_DAMAGE' | 'BEFORE_STATUS_APPLIED' | 'ON_STATUS_APPLIED' | 'BEFORE_KILL' | 'ON_KILL' | 'AFTER_KILL' | 'ON_CRIT' | 'ON_TOWER_DISABLED' | 'ON_WAVE_START' | 'ON_WAVE_END';
+/** Hook behavior modes (spec: 06-effects/009-hooks-lifecycle.md). */
+export type HookBehavior = 'MUTATE' | 'CANCEL' | 'REPLACE' | 'REACT';
+/**
+ * A child effect node in an effect graph.
+ * (spec: 06-effects/002-effect-graph.md)
+ */
+export type EffectChildDef = {
+    readonly trigger: EffectTrigger;
+    readonly effectDefId: string;
+};
+/**
+ * Static effect definition stored in content config.
+ * (spec: 06-effects/001-effect-system-principles.md, 002-effect-graph.md)
+ */
+export type EffectDef = {
+    readonly effectDefId: string;
+    readonly effectType: EffectType;
+    /** Fixed-point value (FP_ONE = 1000). Meaning depends on effectType. */
+    readonly value: number;
+    readonly element?: DamageElement;
+    readonly children?: readonly EffectChildDef[];
+    /** Numeric priority for hook ordering. Higher runs first. */
+    readonly hookPriority?: number;
+    readonly tags?: readonly string[];
+};
 //# sourceMappingURL=index.d.ts.map
