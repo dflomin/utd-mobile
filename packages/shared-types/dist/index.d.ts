@@ -69,4 +69,46 @@ export type SimulationSummary = {
     readonly configFingerprint: string;
     readonly stateHash: string;
 };
+/** First-class stat identifiers (spec: 05-modifiers/006-core-stat-ids.md). */
+export type StatId = 'DAMAGE' | 'ATTACK_COOLDOWN_TICKS' | 'ATTACK_SPEED_MULTIPLIER' | 'RANGE' | 'TARGET_COUNT' | 'CAN_TARGET_FLYING' | 'CAN_TARGET_GROUND' | 'CAN_ATTACK' | 'CAN_CAST' | 'MANA_MAX' | 'MANA_REGEN_PER_TICK' | 'MANA_COST_MULTIPLIER' | 'ABILITY_COOLDOWN_MULTIPLIER' | 'SPLASH_RADIUS' | 'SPLASH_DAMAGE_MULTIPLIER' | 'CHAIN_COUNT' | 'CHAIN_RANGE' | 'CHAIN_DAMAGE_MULTIPLIER' | 'DOT_DAMAGE_MULTIPLIER' | 'DOT_DURATION_MULTIPLIER' | 'SLOW_PERCENT' | 'STATUS_DURATION_MULTIPLIER' | 'CRIT_CHANCE' | 'CRIT_MULTIPLIER' | 'PROC_CHANCE_MULTIPLIER' | 'GOLD_GAIN_MULTIPLIER' | 'INTEREST_RATE' | 'INTEREST_CAP' | 'SELL_RATIO' | 'ITEM_DROP_CHANCE' | 'POTION_DROP_CHANCE' | 'REROLL_RECHARGE_INTERVAL' | 'REROLL_WINDOW_ROUNDS' | 'RARITY_BONUS' | 'ENEMY_MAX_HP' | 'ENEMY_SPEED' | 'ENEMY_SHIELD_HP' | 'ENEMY_GOLD_REWARD' | 'ENEMY_XP_REWARD';
+/** Modifier operation types (spec: 05-modifiers/002-modifier-types.md). */
+export type ModifierOp = 'FLAT_ADD' | 'PERCENT_ADD' | 'MULTIPLY' | 'MIN_CAP' | 'MAX_CAP' | 'OVERRIDE';
+/** Modifier scope targets (spec: 05-modifiers/004-targeting-filters.md). */
+export type ModifierTarget = 'SELF' | 'TOWER' | 'ENEMY' | 'PLAYER' | 'ALL_PLAYER_TOWERS' | 'ALL_ENEMIES' | 'AURA_RECEIVERS' | 'RUN_GLOBAL';
+/** Modifier stacking modes (spec: 05-modifiers/005-stacking-rules.md). */
+export type ModifierStackMode = 'STACK' | 'UNIQUE_BY_SOURCE' | 'UNIQUE_BY_DEF' | 'HIGHEST_ONLY' | 'REFRESH_DURATION' | 'ADD_STACK_REFRESH_DURATION';
+/**
+ * Static modifier definition stored in content config.
+ * (spec: 05-modifiers/003-modifier-def-instance.md)
+ */
+export type ModifierDef = {
+    readonly modifierDefId: string;
+    readonly statId: StatId;
+    readonly op: ModifierOp;
+    /** Fixed-point value relative to FP_ONE = 1000. */
+    readonly value: number;
+    readonly sourceType: string;
+    readonly sourceId: string;
+    readonly target: ModifierTarget;
+    readonly stackMode?: ModifierStackMode;
+    readonly durationTicks?: number;
+    readonly tags?: readonly string[];
+};
+/**
+ * Runtime modifier instance active on an entity.
+ * (spec: 05-modifiers/003-modifier-def-instance.md)
+ */
+export type ModifierInstance = {
+    readonly modifierInstanceId: string;
+    readonly modifierDefId: string;
+    readonly sourceEntityId?: number;
+    readonly sourcePlayerId?: string;
+    readonly sourceInstanceId?: string;
+    readonly targetEntityId?: number;
+    readonly targetPlayerId?: string;
+    readonly appliedAtTick: number;
+    readonly expiresAtTick?: number;
+    /** Override value if different from the def. Fixed-point. */
+    readonly valueOverride?: number;
+};
 //# sourceMappingURL=index.d.ts.map
