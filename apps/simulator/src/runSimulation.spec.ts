@@ -12,6 +12,14 @@ describe('runSimulation', () => {
     expect(summary.damageByTower['tower-1']).toBeGreaterThan(0);
     expect(JSON.parse(JSON.stringify(summary))).toEqual(summary);
   });
+
+  it('changes state hash when seed changes', () => {
+    const first = runSimulation({ seed: 11, maxTicks: 120 });
+    const second = runSimulation({ seed: 12, maxTicks: 120 });
+
+    expect(first.commandLogReference).toBe(second.commandLogReference);
+    expect(first.stateHash).not.toBe(second.stateHash);
+  });
 });
 
 describe('runSimulationBatch', () => {
@@ -34,5 +42,21 @@ describe('runSimulationBatch', () => {
 
   it('rejects zero-run batches', () => {
     expect(() => runSimulationBatch({ seed: 1, maxTicks: 1, runs: 0 })).toThrow('runs must be greater than zero');
+  });
+
+  it('increments per-run seeds by seedStep and computes averages from runs', () => {
+    const batch = runSimulationBatch({ seed: 3, seedStep: 2, maxTicks: 120, runs: 3 });
+
+    expect(batch.runs.map((run) => run.seed)).toEqual([3, 5, 7]);
+
+    const averageWaveReached = batch.runs.reduce((sum, run) => sum + run.summary.waveReached, 0) / batch.runs.length;
+    const averageKills = batch.runs.reduce((sum, run) => sum + run.summary.kills, 0) / batch.runs.length;
+    const averageLeaks = batch.runs.reduce((sum, run) => sum + run.summary.leaks, 0) / batch.runs.length;
+    const averageGold = batch.runs.reduce((sum, run) => sum + run.summary.gold, 0) / batch.runs.length;
+
+    expect(batch.averageWaveReached).toBe(averageWaveReached);
+    expect(batch.averageKills).toBe(averageKills);
+    expect(batch.averageLeaks).toBe(averageLeaks);
+    expect(batch.averageGold).toBe(averageGold);
   });
 });

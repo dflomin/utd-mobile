@@ -16,4 +16,32 @@ describe('client view model', () => {
     expect(submitted).toHaveLength(1);
     expect(submit).toHaveBeenCalledTimes(1);
   });
+
+  it('maps snapshot HUD values into rows in UI order', () => {
+    const viewModel = createClientViewModel();
+
+    expect(viewModel.hudRows).toEqual([
+      { label: 'Lives', value: '20' },
+      { label: 'Gold', value: '12' },
+      { label: 'Wave', value: '0' },
+      { label: 'HP', value: 'HP' }
+    ]);
+  });
+
+  it('submits a build-tower command payload', () => {
+    const submit = vi.fn();
+
+    createSubmitBuildCommand(submit)();
+
+    expect(submit).toHaveBeenCalledWith(
+      expect.objectContaining({
+        type: 'BUILD_TOWER',
+        payload: expect.objectContaining({
+          slotId: 'slot-1',
+          blueprintStackId: 'stack-1',
+          towerDefId: 'tower.basic'
+        })
+      })
+    );
+  });
 });

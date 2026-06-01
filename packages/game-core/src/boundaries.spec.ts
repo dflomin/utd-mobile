@@ -23,4 +23,15 @@ describe('game-core boundaries', () => {
       expect(source).not.toMatch(/window\./);
     }
   });
+
+  it('does not import application-layer packages', () => {
+    const root = new URL('.', import.meta.url).pathname;
+    const files = collectFiles(root).filter((file) => file.endsWith('.ts'));
+
+    for (const file of files) {
+      const source = readFileSync(file, 'utf8');
+      expect(source).not.toMatch(/from ['"]@utd\/client-phaser/);
+      expect(source).not.toMatch(/from ['"]@utd\/simulator/);
+    }
+  });
 });
